@@ -4,11 +4,16 @@
  *
  */
 import { FontAwesome } from '@expo/vector-icons';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import {
+  NavigationContainer,
+  DefaultTheme,
+  DarkTheme,
+} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import * as React from 'react';
-import { ColorSchemeName, Pressable } from 'react-native';
+import { ColorSchemeName } from 'react-native';
+import { Octicons, MaterialCommunityIcons, Fontisto } from '@expo/vector-icons';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -16,14 +21,24 @@ import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
+import {
+  RootStackParamList,
+  TopTabParamList,
+  RootTabScreenProps,
+} from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+import { View } from '../components/Themed';
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+export default function Navigation({
+  colorScheme,
+}: {
+  colorScheme: ColorSchemeName;
+}) {
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+    >
       <RootNavigator />
     </NavigationContainer>
   );
@@ -37,11 +52,46 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: Colors.light.tint },
+        headerTintColor: Colors.light.background,
+        headerTitleStyle: { fontWeight: 'bold' },
+        headerShadowVisible: false,
+      }}
+    >
+      <Stack.Screen
+        name='Root'
+        component={MainTabNavigator}
+        options={{
+          title: 'WhatsApp',
+          headerRight: () => (
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                width: 60,
+                backgroundColor: Colors.light.tint,
+              }}
+            >
+              <Octicons name='search' size={22} color='white' />
+
+              <MaterialCommunityIcons
+                name='dots-vertical'
+                size={23}
+                color='white'
+              />
+            </View>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name='NotFound'
+        component={NotFoundScreen}
+        options={{ title: 'Oops!' }}
+      />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
+        <Stack.Screen name='Modal' component={ModalScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );
@@ -51,48 +101,44 @@ function RootNavigator() {
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
  * https://reactnavigation.org/docs/bottom-tab-navigator
  */
-const BottomTab = createBottomTabNavigator<RootTabParamList>();
+const TopTab = createMaterialTopTabNavigator<TopTabParamList>();
 
-function BottomTabNavigator() {
+function MainTabNavigator() {
   const colorScheme = useColorScheme();
 
   return (
-    <BottomTab.Navigator
-      initialRouteName="TabOne"
+    <TopTab.Navigator
+      initialRouteName='Chats'
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
-      }}>
-      <BottomTab.Screen
-        name="TabOne"
+        tabBarActiveTintColor: Colors[colorScheme].background,
+        tabBarStyle: {
+          backgroundColor: Colors[colorScheme].tint,
+        },
+        tabBarIndicatorStyle: {
+          backgroundColor: Colors[colorScheme].background,
+          height: 4,
+        },
+        tabBarLabelStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+    >
+      <TopTab.Screen
+        name='Camera'
         component={TabOneScreen}
-        options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate('Modal')}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}>
-              <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              />
-            </Pressable>
+        options={({}: RootTabScreenProps<'Camera'>) => ({
+          tabBarIcon: ({ color }) => (
+            <Fontisto name='camera' color={color} size={17} />
           ),
+          tabBarLabel: () => null,
         })}
       />
-      <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoScreen}
-        options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      />
-    </BottomTab.Navigator>
+      <TopTab.Screen name='Chats' component={TabTwoScreen} />
+
+      <TopTab.Screen name='Status' component={TabTwoScreen} />
+
+      <TopTab.Screen name='Calls' component={TabTwoScreen} />
+    </TopTab.Navigator>
   );
 }
 

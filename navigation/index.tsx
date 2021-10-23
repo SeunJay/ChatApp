@@ -3,7 +3,6 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { FontAwesome } from '@expo/vector-icons';
 import {
   NavigationContainer,
   DefaultTheme,
@@ -13,13 +12,22 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
-import { Octicons, MaterialCommunityIcons, Fontisto } from '@expo/vector-icons';
+import {
+  Octicons,
+  MaterialCommunityIcons,
+  Fontisto,
+  MaterialIcons,
+  FontAwesome5,
+  FontAwesome,
+} from '@expo/vector-icons';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import ChatsScreen from '../screens/ChatsScreen';
+import ChatRoomScreen from '../screens/ChatRoomScreen';
+import ChatRoomHeader from '../components/ChatRoomHeader'
 import TabTwoScreen from '../screens/TabTwoScreen';
 import {
   RootStackParamList,
@@ -70,7 +78,7 @@ function RootNavigator() {
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-                width: 60,
+                width: 70,
                 backgroundColor: Colors.light.tint,
               }}
             >
@@ -84,6 +92,34 @@ function RootNavigator() {
             </View>
           ),
         }}
+      />
+      <Stack.Screen
+        name='ChatRoom'
+        component={ChatRoomScreen}
+        options={({ route }) => ({
+          // title: route.params?.name,
+          headerTitle: () => (
+            <ChatRoomHeader name={route.params?.name} image={route.params?.image} />
+          ),
+          headerRight: () => (
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                width: 120,
+                backgroundColor: Colors.light.tint,
+              }}
+            >
+              <FontAwesome5 name='video' size={22} color='white' />
+              <MaterialIcons name='call' size={22} color='white' />
+              <MaterialCommunityIcons
+                name='dots-vertical'
+                size={23}
+                color='white'
+              />
+            </View>
+          ),
+        })}
       />
       <Stack.Screen
         name='NotFound'

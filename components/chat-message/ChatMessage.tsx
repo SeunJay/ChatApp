@@ -40,18 +40,20 @@ export default ChatMessage;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    padding: 20,
   },
   messageBox: {
     borderRadius: 5,
-    padding: 10,
+    padding: 3,
+    // borderWidth: 1,
+    // borderColor: '#000',
   },
   name: {
     color: Colors.light.tint,
     fontWeight: 'bold',
   },
   message: {
-    marginVertical: 5,
+    marginVertical: 3,
   },
   time: {
     alignSelf: 'flex-end',

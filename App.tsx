@@ -10,7 +10,9 @@ import Amplify from 'aws-amplify';
 import config from './src/aws-exports';
 Amplify.configure(config);
 
-export default function App() {
+import { withAuthenticator } from 'aws-amplify-react-native';
+
+const App = () => {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
 
@@ -24,4 +26,6 @@ export default function App() {
       </SafeAreaProvider>
     );
   }
-}
+};
+
+export default withAuthenticator(App);

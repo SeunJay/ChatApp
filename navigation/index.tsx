@@ -26,8 +26,9 @@ import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import ChatsScreen from '../screens/ChatsScreen';
+import ContactsScreen from '../screens/ContactsScreen';
 import ChatRoomScreen from '../screens/ChatRoomScreen';
-import ChatRoomHeader from '../components/ChatRoomHeader'
+import ChatRoomHeader from '../components/ChatRoomHeader';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import {
   RootStackParamList,
@@ -99,7 +100,10 @@ function RootNavigator() {
         options={({ route }) => ({
           // title: route.params?.name,
           headerTitle: () => (
-            <ChatRoomHeader name={route.params?.name} image={route.params?.image} />
+            <ChatRoomHeader
+              name={route.params?.name}
+              image={route.params?.image}
+            />
           ),
           headerRight: () => (
             <View
@@ -121,6 +125,7 @@ function RootNavigator() {
           ),
         })}
       />
+      <Stack.Screen name='Contacts' component={ContactsScreen} />
       <Stack.Screen
         name='NotFound'
         component={NotFoundScreen}

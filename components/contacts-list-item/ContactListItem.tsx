@@ -8,29 +8,21 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { ChatRoom } from '../../types';
+import { User } from '../../types';
 import moment from 'moment';
 
-export type ChatListItemProps = {
-  chatRoom: ChatRoom;
+export type ContactListItemProps = {
+  user: User;
 };
 
-const ChatListItem = (props: ChatListItemProps) => {
-  const { chatRoom } = props;
+const ContactListItem = (props: ContactListItemProps) => {
+  const { user } = props;
 
   const navigation = useNavigation();
 
-  const user = chatRoom.users[1];
+  const handleClick = () => {};
   return (
-    <TouchableWithoutFeedback
-      onPress={() =>
-        navigation.navigate('ChatRoom', {
-          id: chatRoom.id,
-          name: user.name,
-          image: user.imageUri,
-        })
-      }
-    >
+    <TouchableWithoutFeedback onPress={handleClick}>
       <View style={styles.container}>
         <View style={styles.leftContainer}>
           <Image
@@ -41,20 +33,14 @@ const ChatListItem = (props: ChatListItemProps) => {
           />
           <View style={styles.midContainer}>
             <Text style={styles.username}>{user.name}</Text>
-            <Text style={styles.lastMessage}>
-              {chatRoom.lastMessage.content}
-            </Text>
           </View>
         </View>
-        <Text style={styles.time}>
-          {moment(chatRoom.lastMessage.createdAt).format('DD/MM/YYYY')}
-        </Text>
       </View>
     </TouchableWithoutFeedback>
   );
 };
 
-export default ChatListItem;
+export default ContactListItem;
 
 const styles = StyleSheet.create({
   avatar: {
@@ -76,17 +62,18 @@ const styles = StyleSheet.create({
   },
   midContainer: {
     justifyContent: 'space-around',
+    // marginLeft: 5,
   },
   username: {
     fontWeight: 'bold',
     fontSize: 16,
   },
-  lastMessage: {
-    fontSize: 16,
-    color: 'grey',
-  },
-  time: {
-    fontSize: 13,
-    color: 'grey',
-  },
+  // lastMessage: {
+  //   fontSize: 16,
+  //   color: 'grey',
+  // },
+  // time: {
+  //   fontSize: 13,
+  //   color: 'grey',
+  // },
 });

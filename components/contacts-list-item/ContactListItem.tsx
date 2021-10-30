@@ -33,6 +33,7 @@ const ContactListItem = (props: ContactListItemProps) => {
           />
           <View style={styles.midContainer}>
             <Text style={styles.username}>{user.name}</Text>
+            <Text style={styles.status}>{user.status}</Text>
           </View>
         </View>
       </View>
@@ -68,10 +69,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
-  // lastMessage: {
-  //   fontSize: 16,
-  //   color: 'grey',
-  // },
+  status: {
+    fontSize: 16,
+    color: 'grey',
+  },
   // time: {
   //   fontSize: 13,
   //   color: 'grey',

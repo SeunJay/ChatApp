@@ -38,6 +38,7 @@ export type User = {
   id: String;
   name: String;
   imageUri: String;
+  status: String;
 };
 
 export type Message = {

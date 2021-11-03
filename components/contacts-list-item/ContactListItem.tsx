@@ -26,6 +26,8 @@ const ContactListItem = (props: ContactListItemProps) => {
 
   const navigation = useNavigation();
 
+  console.log('user =>', user);
+
   const handleClick = async () => {
     try {
       // 1. create chat room

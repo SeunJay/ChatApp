@@ -6,13 +6,14 @@ import Colors from '../../constants/Colors';
 
 export type ChatMessageProps = {
   message: Message;
+  userId: String;
 };
 
 const ChatMessage = (props: ChatMessageProps) => {
-  const { message } = props;
+  const { message, userId } = props;
 
   const isMyMessage = () => {
-    return message.user.id === 'u1';
+    return message.user.id === userId;
   };
 
   return (

@@ -32,7 +32,6 @@ const InputBox = ({ chatRoomID }) => {
   };
 
   const onSend = async () => {
-    console.log('on send method called')
     try {
       await API.graphql(
         graphqlOperation(createMessage, {
